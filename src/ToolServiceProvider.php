@@ -1,70 +1,43 @@
 <?php
 
-namespace :namespace_vendor\:namespace_tool_name;
+namespace Opscale\NovaMailbox;
 
-use Laravel\Nova\Events\ServingNova;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider;
-use :namespace_vendor\:namespace_tool_name\Http\Middleware\Authorize;
-use Laravel\Nova\Nova;
+use BeyondCode\Mailbox\Facades\Mailbox;
+use Opscale\NovaMailbox\Mailboxes\CatchAll;
+use Opscale\NovaMailbox\Nova\Attachment;
+use Opscale\NovaMailbox\Nova\Email;
+use Opscale\NovaMailbox\Nova\Extraction;
+use Opscale\NovaPackageTools\NovaPackage;
+use Opscale\NovaPackageTools\NovaPackageServiceProvider;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Spatie\LaravelPackageTools\Package;
 
-class ToolServiceProvider extends ServiceProvider
+class ToolServiceProvider extends NovaPackageServiceProvider
 {
-    public function boot()
+    public function configurePackage(Package $package): void
     {
-        $this->loadRoutes();
-        /*$this->loadConfigs();
-
-        if ($this->app->runningInConsole()) {
-            $this->loadCommands();
-            $this->loadMigrations();
-        }
-            
-        Nova::serving(function (ServingNova $event) {
-            $this->loadResources();
-        });*/
+        /** @var NovaPackage $package */
+        $package
+            ->name('nova-mailbox')
+            ->hasConfigFile('mailbox')
+            ->hasTranslations()
+            ->discoversMigrations()
+            ->runsMigrations()
+            ->hasRoutes(['web'])
+            ->hasResources([
+                Email::class,
+                Attachment::class,
+                Extraction::class,
+            ])
+            ->hasInstallCommand(function (InstallCommand $installCommand): void {
+                $installCommand
+                    ->publishConfigFile()
+                    ->askToStarRepoOnGitHub('opscale-co/nova-mailbox');
+            });
     }
 
-    public function register()
+    public function packageBooted(): void
     {
-        //
+        Mailbox::catchAll(CatchAll::class);
     }
-
-    /*protected function loadResources()
-    {
-        Nova::resources([]);
-    }
-
-    protected function loadRoutes()
-    {
-        if ($this->app->routesAreCached()) {
-            return;
-        }
-
-        Route::middleware(['nova', Authorize::class])
-                ->prefix('nova-vendor/:vendor/:package_name')
-                ->group(__DIR__.'/../routes/api.php');
-    }
-                
-    protected function loadConfigs()
-    {
-        $filename = ':package_name.php';
-        $this->publishes([
-            __DIR__."/../config/$filename" => config_path($filename),
-        ]);
-    }
-
-    protected function loadCommands()
-    {
-        $this->commands([]);
-    }
-
-    protected function loadMigrations()
-    {
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-
-        $this->publishesMigrations([
-            __DIR__.'/../database/migrations' => database_path('migrations'),
-        ]);
-    }*/
 }

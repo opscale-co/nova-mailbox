@@ -14,96 +14,110 @@ At Opscale, we’re passionate about contributing to the open-source community b
 
 Thanks for helping Opscale continue to scale! 🚀
 
-<!--delete-->
 
-## Using this skeleton (remove this section after you have completed these steps)
-
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
-
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-
-3. Check the GitHub Actions workflows you want to keep.
-
-4. If you want to publish your package in Packagist, you can use the publish.sh script.
-
-5. Keep in mind the template is configured with [Duster](https://github.com/tighten/duster) and [Commitlint](https://commitlint.js.org/) 
-
-6. Have fun creating your package.
-
----
-
-To use your customized package in a Nova app, add this line in the `require` section of the `composer.json` file:
-
-```
-
-":vendor/:package_name": "*",
-
-```
-
-In the same `composer.json` file add a `repositiories` section with the path to your package repo:
-
-```
-
-"repositories": [
-{
-    "type": "path",
-    "url": "../:package_name"
-},
-
-```
-
-Now you're ready to develop your package inside a Nova app.
-
-**When you are done with the steps above delete everything above!**
-
-<!--/delete-->
 
 ## Description
 
-:package_description
+Nova Mailbox captures and processes inbound emails in your Nova app. It stores emails and attachments, and supports extraction rules to automatically extract structured data from incoming messages.
 
-Add a screenshot of the tool here.
+![Demo](https://raw.githubusercontent.com/opscale-co/nova-mailbox/refs/heads/main/screenshots/nova-mailbox.gif)
 
 ## Installation
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor/:package_name.svg?style=flat-square)](https://packagist.org/packages/:vendor/:package_name)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/opscale-co/nova-mailbox.svg?style=flat-square)](https://packagist.org/packages/opscale-co/nova-mailbox)
 
 You can install the package in to a Laravel app that uses [Nova](https://nova.laravel.com) via composer:
 
 ```bash
-
-composer require :vendor/:package_name
-
+composer require opscale-co/nova-mailbox
 ```
 
-Next up, you must register the tool with Nova. This is typically done in the `tools` method of the `NovaServiceProvider`.
+Run the install command:
+
+```bash
+php artisan mailbox:install
+```
+
+Register the tool in the `tools` method of your `NovaServiceProvider`:
 
 ```php
-
 // in app/Providers/NovaServiceProvider.php
-// ...
+
 public function tools()
 {
     return [
-        // ...
-        new \:namespace_vendor\:namespace_tool_name\Tool(),
+        new \Opscale\NovaMailbox\Tool(),
     ];
 }
-
 ```
 
-## Usage
+## Configuration
 
-Click on the ":package_name" menu item in your Nova app to see the tool provided by this package.
+The configuration file is published at `config/mailbox.php`:
+
+```php
+return [
+    // Storage path for emails and attachments (relative to disk)
+    'path' => env('MAILBOX_STORAGE_PATH', 'mailbox'),
+
+    // Extraction rules: classes implementing the Extractor interface
+    'extraction_rules' => [
+        // \App\Extractors\MyExtractor::class,
+    ],
+];
+```
+
+## Templates
+
+Extractions use templates from [Nova Dynamic Resources](https://github.com/opscale-co/nova-dynamic-resources) to define their fields. Refer to the composition example for setting up templates.
+
+## Extraction Rules
+
+You can create custom extraction rules by implementing the `Extractor` interface. Each rule defines when it should match an inbound email and how to process it.
+
+```php
+use BeyondCode\Mailbox\InboundEmail;
+use Opscale\NovaMailbox\Contracts\Extractor;
+use Opscale\NovaMailbox\Models\Email;
+use Opscale\NovaMailbox\Models\Extraction;
+
+class MyExtractor implements Extractor
+{
+    public function matches(InboundEmail $email): bool
+    {
+        // Return true if this rule should process the email
+    }
+
+    public function process(InboundEmail $email): ?Extraction
+    {
+        // Extract data and create an Extraction record
+        // Use $email->id() to find the stored Email record:
+        $record = Email::where('message_id', $email->id())->firstOrFail();
+
+        return Extraction::create([
+            'email_id' => $record->id,
+            'template_id' => $template->id,
+            'status' => ExtractionStatus::Completed,
+            'data' => [
+                // extracted fields
+            ],
+        ]);
+    }
+}
+```
+
+Register your extractor in `config/mailbox.php`:
+
+```php
+'extraction_rules' => [
+    \App\Extractors\MyExtractor::class,
+],
+```
 
 ## Testing
 
-``` bash
-
-npm run test
-
+```bash
+composer test
 ```
 
 ## Changelog
@@ -116,11 +130,11 @@ Please see [CONTRIBUTING](https://github.com/opscale-co/.github/blob/main/CONTRI
 
 ## Security
 
-If you discover any security related issues, please email :author_email instead of using the issue tracker.
+If you discover any security related issues, please email development@opscale.co instead of using the issue tracker.
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Opscale](https://github.com/opscale-co)
 
 ## License
 

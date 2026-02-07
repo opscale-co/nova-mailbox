@@ -1,0 +1,23 @@
+{
+    "Email": "Email",
+    "Emails": "Emails",
+    "Attachment": "Attachment",
+    "Attachments": "Attachments",
+    "Extraction": "Extraction",
+    "Extractions": "Extractions",
+    "From": "From",
+    "To": "To",
+    "CC": "CC",
+    "Alias": "Alias",
+    "Subject": "Subject",
+    "Date": "Date",
+    "Filename": "Filename",
+    "Content Type": "Content Type",
+    "Size": "Size",
+    "Status": "Status",
+    "Message": "Message",
+    "Created At": "Created At",
+    "Updated At": "Updated At",
+    "Details": "Details",
+    "Download": "Download"
+}

@@ -1,0 +1,31 @@
+laravel: '@testbench'
+
+providers:
+  - Laravel\Nova\NovaCoreServiceProvider
+  - Laravel\Nova\NovaServiceProvider
+  - Workbench\App\Providers\WorkbenchServiceProvider
+  - Workbench\App\Providers\NovaServiceProvider
+  - BeyondCode\Mailbox\MailboxServiceProvider
+  - Opscale\NovaMailbox\ToolServiceProvider
+
+seeders:
+  - Workbench\Database\Seeders\DatabaseSeeder
+
+workbench:
+  start: /nova
+  build:
+    - package:discover
+    - asset-publish
+    - vendor:publish --provider="BeyondCode\Mailbox\MailboxServiceProvider" --tag="migrations" --force
+    - create-sqlite-db
+    - db:wipe
+    - migrate:refresh
+    - mailbox:install --no-interaction
+  assets:
+    - nova-assets
+  sync: []
+
+purge:
+  directories:
+    - lang/*
+    - public/vendor/*

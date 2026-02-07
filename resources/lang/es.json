@@ -1,0 +1,23 @@
+{
+    "Email": "Correo",
+    "Emails": "Correos",
+    "Attachment": "Adjunto",
+    "Attachments": "Adjuntos",
+    "Extraction": "Extracción",
+    "Extractions": "Extracciones",
+    "From": "De",
+    "To": "Para",
+    "CC": "CC",
+    "Alias": "Alias",
+    "Subject": "Asunto",
+    "Date": "Fecha",
+    "Filename": "Nombre de archivo",
+    "Content Type": "Tipo de contenido",
+    "Size": "Tamaño",
+    "Status": "Estado",
+    "Message": "Mensaje",
+    "Created At": "Creado",
+    "Updated At": "Actualizado",
+    "Details": "Detalles",
+    "Download": "Descargar"
+}
