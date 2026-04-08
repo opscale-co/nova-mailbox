@@ -16,7 +16,7 @@ class DownloadController extends Controller
 
         abort_unless($email->uri, 404);
 
-        return Storage::disk()->download($email->uri, $email->subject . '.eml');
+        return Storage::disk(config('mailbox.disk'))->download($email->uri, $email->subject . '.eml');
     }
 
     public function downloadAttachment(string $id): StreamedResponse
@@ -25,6 +25,6 @@ class DownloadController extends Controller
 
         abort_unless($attachment->uri, 404);
 
-        return Storage::disk()->download($attachment->uri, $attachment->filename);
+        return Storage::disk(config('mailbox.disk'))->download($attachment->uri, $attachment->filename);
     }
 }

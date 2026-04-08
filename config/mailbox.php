@@ -4,6 +4,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Storage Disk
+    |--------------------------------------------------------------------------
+    |
+    | This value defines the disk where emails and attachments are stored.
+    | If not specified, the default filesystem disk will be used.
+    |
+    | Supported: Any disk configured in config/filesystems.php
+    | Examples: "local", "s3", "ses", "minio"
+    |
+    */
+
+    'disk' => env('MAILBOX_STORAGE_DISK'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Storage Path
     |--------------------------------------------------------------------------
     |

@@ -39,7 +39,7 @@ class CatchAll
     {
         $path = sprintf('%s/emails/%s.eml', config('mailbox.path'), $email->id());
 
-        Storage::disk()->put($path, $email->getAttribute('message'));
+        Storage::disk(config('mailbox.disk'))->put($path, $email->getAttribute('message'));
 
         return $path;
     }
@@ -48,7 +48,7 @@ class CatchAll
     {
         $path = sprintf('%s/attachments/%s/%s', config('mailbox.path'), $email->id, $attachment->getFilename());
 
-        Storage::disk()->put($path, $attachment->getContent());
+        Storage::disk(config('mailbox.disk'))->put($path, $attachment->getContent());
 
         Attachment::create([
             'email_id' => $email->id,
