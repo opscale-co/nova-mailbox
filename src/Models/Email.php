@@ -2,11 +2,13 @@
 
 namespace Opscale\NovaMailbox\Models;
 
-use Enigma\ValidatorTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
+use Opscale\Validations\Validatable;
 
 /**
  * @property string $id
@@ -19,18 +21,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property array|null $bcc
  * @property array|null $reply_to
  * @property string|null $subject
- * @property \Illuminate\Support\Carbon|null $date
+ * @property Carbon|null $date
  * @property string $uri
  * @property array|null $data
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Opscale\NovaMailbox\Models\Attachment> $attachments
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Opscale\NovaMailbox\Models\Extraction> $extractions
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, Attachment> $attachments
+ * @property-read Collection<int, Extraction> $extractions
  */
 class Email extends Model
 {
     use HasUlids;
-    use ValidatorTrait;
+    use Validatable;
 
     /** @var string */
     protected $table = 'mailbox_emails';

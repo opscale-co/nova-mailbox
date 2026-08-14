@@ -2,12 +2,14 @@
 
 namespace Opscale\NovaMailbox\Models;
 
-use Enigma\ValidatorTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Opscale\NovaDynamicResources\Models\Concerns\UsesTemplate;
+use Opscale\NovaDynamicResources\Models\Template;
 use Opscale\NovaMailbox\Models\Enums\ExtractionStatus;
+use Opscale\Validations\Validatable;
 
 /**
  * @property string $id
@@ -16,16 +18,16 @@ use Opscale\NovaMailbox\Models\Enums\ExtractionStatus;
  * @property ExtractionStatus $status
  * @property string|null $message
  * @property array|null $data
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Opscale\NovaMailbox\Models\Email $email
- * @property-read \Opscale\NovaDynamicResources\Models\Template $template
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Email $email
+ * @property-read Template $template
  */
 class Extraction extends Model
 {
     use HasUlids;
     use UsesTemplate;
-    use ValidatorTrait;
+    use Validatable;
 
     /** @var string */
     protected $table = 'mailbox_extractions';

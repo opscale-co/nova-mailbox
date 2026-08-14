@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\ServiceProvider;
 use Workbench\App\Channels\StdoutChannel;
 use Workbench\App\Console\Commands\SendTestEmail;
+use Workbench\App\Extractors\SecretCodeExtractor;
 
 class WorkbenchServiceProvider extends ServiceProvider
 {
@@ -16,7 +17,7 @@ class WorkbenchServiceProvider extends ServiceProvider
     public function register(): void
     {
         config()->set('mailbox.extraction_rules', [
-            \Workbench\App\Extractors\SecretCodeExtractor::class,
+            SecretCodeExtractor::class,
         ]);
     }
 

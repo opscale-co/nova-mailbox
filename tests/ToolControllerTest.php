@@ -2,13 +2,15 @@
 
 namespace Opscale\NovaMailbox\Tests;
 
+use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Attributes\Test;
+
 class ToolControllerTest extends TestCase
 {
-    /** @test */
-    public function it_can_return_a_response()
+    #[Test]
+    public function it_registers_the_package_routes()
     {
-        $this
-            ->get('nova-vendor/opscale-co/nova-mailbox/test-case')
-            ->assertStatus(403);
+        $this->assertTrue(Route::has('mailbox.emails.download'));
+        $this->assertTrue(Route::has('mailbox.attachments.download'));
     }
 }

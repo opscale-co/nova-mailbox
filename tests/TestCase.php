@@ -2,13 +2,14 @@
 
 namespace Opscale\NovaMailbox\Tests;
 
+use BeyondCode\Mailbox\MailboxServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Opscale\NovaMailbox\ToolServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -18,6 +19,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            MailboxServiceProvider::class,
             ToolServiceProvider::class,
         ];
     }
