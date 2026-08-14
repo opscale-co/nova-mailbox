@@ -24,12 +24,12 @@
     }
   ],
   "require": {
-    "php": ">=8.2",
-    "beyondcode/laravel-mailbox": "^5.0",
-    "opscale-co/actions": "^1.0",
-    "opscale-co/nova-dynamic-resources": "^1.4",
-    "opscale-co/nova-package-tools": "^1.0",
-    "theriddleofenigma/laravel-model-validation": "^1.6"
+    "php": "^8.3",
+    "beyondcode/laravel-mailbox": "^6.0",
+    "opscale-co/actions": "^2.4",
+    "opscale-co/nova-dynamic-resources": "^1.11",
+    "opscale-co/nova-package-tools": "^1.1",
+    "opscale-co/validations": "^1.0"
   },
   "autoload": {
     "psr-4": {
@@ -57,10 +57,10 @@
   "minimum-stability": "stable",
   "prefer-stable": true,
   "require-dev": {
-    "laravel/nova": "^5.4",
-    "laravel/nova-devtool": "^1.0",
-    "phpunit/phpunit": "^10.5",
-    "tightenco/duster": "^2.7"
+    "laravel/nova": "^5.10",
+    "laravel/nova-devtool": "^1.10",
+    "phpunit/phpunit": "^12.5",
+    "tightenco/duster": "^3.4"
   },
   "scripts": {
     "post-autoload-dump": [
