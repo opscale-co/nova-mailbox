@@ -26,10 +26,10 @@
   "require": {
     "php": "^8.3",
     "beyondcode/laravel-mailbox": "^6.0",
-    "opscale-co/actions": "^2.4",
-    "opscale-co/nova-dynamic-resources": "^1.11",
-    "opscale-co/nova-package-tools": "^1.1",
-    "opscale-co/validations": "^1.0"
+    "opscale-co/actions": "^5.0",
+    "opscale-co/nova-dynamic-resources": "^2.0",
+    "opscale-co/nova-package-tools": "^2.0",
+    "opscale-co/validations": "^2.0"
   },
   "autoload": {
     "psr-4": {
